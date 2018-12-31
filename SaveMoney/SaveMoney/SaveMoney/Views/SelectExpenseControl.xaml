@@ -1,0 +1,194 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:flex="clr-namespace:Flex.Controls;assembly=Flex"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:c="clr-namespace:SaveMoney.Converter"
+             x:Class="SaveMoney.Views.SelectExpenseControl">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <c:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
+            <c:BooleanConverter x:Key="booleanConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <RelativeLayout>
+        <StackLayout 
+            x:Name="stkBody"
+            Padding="10"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"  
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+
+            <Image
+                    IsVisible="{Binding IsVisible, Converter={StaticResource booleanConverter}}"
+                    Source="background.jpg"
+                   HorizontalOptions="Center"
+                   WidthRequest="100"
+                   HeightRequest="100"/>
+
+            <StackLayout IsVisible="{Binding IsVisible, Mode=OneWay}"
+                         Orientation="Vertical" 
+                         HorizontalOptions="Center"
+                         VerticalOptions="Center" 
+                         HeightRequest="180">
+                <flex:FlexButton
+                    WidthRequest="66"
+                    HeightRequest="66"
+                    CornerRadius="50"
+                    HorizontalOptions="Center"
+                    Icon="payment.png"
+                    ForegroundColor="#ffffff"
+                    HighlightForegroundColor="#ffffff"
+                    BackgroundColor="#32c24d"
+                    Padding="15"
+                    HighlightBackgroundColor="#32c24d" />
+
+                <Label Text="Selecione o controle de gasto do mês corrente" FontFamily="{StaticResource NormalFont}" />
+                <Picker ItemsSource="{Binding ExpenseYearMonths, Mode=TwoWay}"
+                        SelectedItem="{Binding CurrentDate, Mode=TwoWay}"
+                        HorizontalOptions="Center" 
+                        FontSize="14" 
+                        FontFamily="{StaticResource NormalFont}"/>
+            </StackLayout>
+
+            <BoxView IsVisible="{Binding IsVisible, Mode=OneWay}" 
+                     HeightRequest=".8" 
+                     BackgroundColor="#d1c8c8"/>
+
+            <Label Text="Sem registro de gasto cadastrado. Crie um novo :)"
+                   IsVisible="{Binding IsVisible, Converter={StaticResource booleanConverter}}"
+                   FontFamily="{StaticResource NormalFont}"
+                   FontSize="24"                 
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="FillAndExpand"
+                   VerticalTextAlignment="Center"
+                   HorizontalTextAlignment="Center"/>
+
+            <ListView x:Name="lstExpenseControl" 
+                      IsVisible="{Binding IsVisible, Mode=OneWay}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True" 
+                      ItemsSource="{Binding CurrentExpenseControl, Mode=TwoWay}"
+                      IsPullToRefreshEnabled="False">
+                <ListView.Behaviors>
+                    <b:EventToCommandBehavior EventName="ItemTapped"
+                                              Command="{Binding ItemTappedCommand}"
+                                              EventArgsConverter="{StaticResource itemTappedEventArgsConverter}"/>
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Margin="3">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="1*"/>
+                                        <ColumnDefinition Width="6*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackLayout Grid.ColumnSpan="2">
+                                        <Label Text="{Binding Title}" />
+                                    </StackLayout>
+                                    
+                                    <StackLayout Grid.Column="0" HorizontalOptions="Center" VerticalOptions="Center">
+                                        <Image  Source="data.png" HeightRequest="30" WidthRequest="30"/>
+                                    </StackLayout>
+
+                                    <StackLayout  Grid.Column="1" VerticalOptions="Center">
+                                        <Label Text="Período" 
+                                               FontFamily="{StaticResource NormalFont}"
+                                               FontSize="12"/>
+                                        <Label FontFamily="{StaticResource NormalFont}"
+                                               FontSize="12">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding BeginDateFormatted}"/>
+                                                    <Span Text=" à "/>
+                                                    <Span Text="{Binding EndDateFormatted}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                    </StackLayout>
+
+                                    <StackLayout Grid.Column="2">
+                                        <Label FontFamily="{StaticResource NormalFont}" 
+                                               FontSize="12"
+                                               TextColor="#32C24D">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Crédito: "/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label FontFamily="{StaticResource NormalFont}" 
+                                               FontSize="12"
+                                               TextColor="#32C24D"
+                                               Text="{Binding AvailableValue}"/>
+                                        <Label FontFamily="{StaticResource NormalFont}" 
+                                               FontSize="12"
+                                               TextColor="#FF3D00">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Débito: "/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label FontFamily="{StaticResource NormalFont}" 
+                                               FontSize="12"
+                                               TextColor="#FF3D00"
+                                               Text="{Binding SpendValue}"/>
+                                    </StackLayout>
+
+                                    <StackLayout Grid.Column="3" VerticalOptions="Center">
+                                        <flex:FlexButton
+                                            WidthRequest="70"
+                                            HeightRequest="70"
+                                            CornerRadius="100"
+                                            HorizontalOptions="Center"
+                                            Icon="trash.png"
+                                            ForegroundColor="#32c24d"
+                                            HighlightForegroundColor="#095A49"
+                                            BackgroundColor="White"
+                                            Padding="5"
+                                            ClickedCommand="{Binding Path=BindingContext.RemoveExpenseControl, Source={x:Reference Name=lstExpenseControl}}"
+                                            ClickedCommandParameter="{Binding}"
+                                            HighlightBackgroundColor="White"/>
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            
+            <ActivityIndicator x:Name="actInd"
+                               HorizontalOptions="CenterAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               IsRunning="{Binding IsVisible}"
+                               IsVisible="{Binding IsVisible, Converter={StaticResource booleanConverter}}" 
+                               Color="Green"/>
+
+        </StackLayout>
+
+        <flex:FlexButton
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView, ElementName=stkBody, Property=Height, Factor=0.88}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView, ElementName=stkBody, Property=Width, Factor=0.82}"
+            WidthRequest="50"
+            HeightRequest="50"
+            CornerRadius="100"
+            Padding="15"
+            HorizontalOptions="Center"
+            Icon="plus.png"
+            ForegroundColor="#ffffff"
+            HighlightForegroundColor="#ffffff"
+            BackgroundColor="#32c24d"
+            ClickedCommand="{Binding NewExpenseControl}"
+            HighlightBackgroundColor="#81E08F" />
+
+
+    </RelativeLayout>
+</ContentPage>

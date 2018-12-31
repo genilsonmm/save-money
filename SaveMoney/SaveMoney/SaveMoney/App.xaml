@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<prism:PrismApplication xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Unity;assembly=Prism.Unity.Forms"
+             xmlns:flex="clr-namespace:Flex.Controls;assembly=Flex"
+             x:Class="SaveMoney.App">
+	<Application.Resources>
+
+		<!-- Application resource dictionary -->
+        <OnPlatform x:TypeArguments="x:String" x:Key="NormalFont">
+            <On Platform="Android" Value="GothamLight.ttf#Gotham" />
+            <On Platform="UWP" Value="/Assets/GothamLight.ttf#Gotham" />
+            <On Platform="iOS" Value="Gotham" />
+        </OnPlatform>
+
+        <Style x:Key="labelBase" TargetType="Label">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontAttributes" Value="None"/>
+            <!--<Setter Property="TextColor" Value="#AEAEAE"/>-->
+        </Style>
+
+        <!--<Style x:Key="buttonBase" TargetType="flex:FlexButton">
+            <Setter Property="ForegroundColor" Value="#ffffff"/>
+            <Setter Property="HighlightForegroundColor" Value="#ffffff"/>
+            <Setter Property="BackgroundColor" Value="#32c24d"/>
+            <Setter Property="HighlightBackgroundColor" Value="#81E08F"/>
+        </Style>-->
+        
+    </Application.Resources>
+</prism:PrismApplication>

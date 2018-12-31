@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:flex="clr-namespace:Flex.Controls;assembly=Flex"
+             xmlns:b="clr-namespace:Prism.Behaviors;assembly=Prism.Forms"
+             xmlns:c="clr-namespace:SaveMoney.Converter"
+             x:Class="SaveMoney.Views.ExpenseControlDetails">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="labelMonayBig" TargetType="Label">
+                <Setter Property="FontSize" Value="32" />
+                <Setter Property="FontFamily" Value="{StaticResource NormalFont}"/>
+                <Setter Property="TextColor" Value="#94C42D" />
+            </Style>
+            <Style x:Key="labelMonaySmall" TargetType="Label">
+                <Setter Property="VerticalOptions" Value="EndAndExpand"/>
+                <Setter Property="Margin" Value="0,0,0,0"/>
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="FontFamily" Value="{StaticResource NormalFont}"/>
+                <Setter Property="TextColor" Value="#94C42D" />
+            </Style>
+            <c:ItemTappedEventArgsConverter x:Key="itemTappedEventArgsConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <RelativeLayout>
+        <StackLayout
+            x:Name="stkBody"
+            Padding="10"
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"  
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+
+            <StackLayout>
+                <Label Text="Disponível" 
+                       HorizontalOptions="CenterAndExpand"
+                       Style="{StaticResource labelBase}"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="{Binding ExpenseControl.BeginDateFormatted, StringFormat='Período de {0}'}" 
+                           HorizontalOptions="Center" 
+                           FontSize="14" 
+                           FontFamily="{StaticResource NormalFont}" />
+                    <Label Text="{Binding ExpenseControl.EndDateFormatted, StringFormat='até {0}'}" 
+                           HorizontalOptions="Center" 
+                           FontSize="14" 
+                           FontFamily="{StaticResource NormalFont}" />
+                </StackLayout>
+                <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                    <Label HorizontalOptions="Center"
+                           Text="{Binding ExpenseControl.AvailableValue}" 
+                           Style="{StaticResource labelMonayBig}"/>
+                    <flex:FlexButton Text="{Binding ExpenseControl.TotalValue, StringFormat='({0})'}"                                   
+                                     ForegroundColor="#94C42D" 
+                                     WidthRequest="200"
+                                     ClickedCommand="{Binding EditExpenseControlCommand}"
+                                     HighlightForegroundColor="#81E08F" />
+                </StackLayout>
+            </StackLayout>
+
+            <BoxView  HeightRequest=".8" BackgroundColor="#d1c8c8"/>
+
+            <ListView SeparatorVisibility="None"
+                x:Name="lstSpendings"
+                HasUnevenRows="True" HeightRequest="100"
+                ItemsSource="{Binding ExpenseControl.Transactions, Mode=TwoWay}"
+                IsPullToRefreshEnabled="False">
+                <ListView.Behaviors>
+                    <b:EventToCommandBehavior EventName="ItemTapped"
+                                              Command="{Binding ItemTappedCommand}"
+                                              EventArgsConverter="{StaticResource itemTappedEventArgsConverter}"/>
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="5*"/>
+                                    <ColumnDefinition Width="3*"/>
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Grid.Column="0">
+                                    <BoxView 
+                                            WidthRequest="1" 
+                                            HeightRequest="10" 
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Start"
+                                            BackgroundColor="Gray"/>
+                                    <Image Source="{Binding Category.Image}" 
+                                            HorizontalOptions="Center"
+                                            HeightRequest="35"/>
+                                    <BoxView 
+                                            WidthRequest="1" 
+                                            HeightRequest="10" 
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="End"
+                                            BackgroundColor="Gray"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="1" VerticalOptions="Center">
+                                    <Label Text="{Binding Category.Name}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           FontFamily="{StaticResource NormalFont}"/>
+                                    <Label Text="{Binding Value}" 
+                                           FontSize="16"
+                                           HorizontalOptions="Start"
+                                           VerticalOptions="Center"
+                                           FontFamily="{StaticResource NormalFont}"/>
+                                    <Label Text="{Binding Description}"
+                                           FontSize="12"
+                                           FontFamily="{StaticResource NormalFont}"/>
+                                </StackLayout>
+                                <StackLayout Grid.Column="2" VerticalOptions="Center">
+                                    <Label Text="{Binding FullDate}"
+                                           FontFamily="{StaticResource NormalFont}"/>
+                                    <Label Text="{Binding FullTime}"
+                                           FontFamily="{StaticResource NormalFont}"/>
+                                </StackLayout>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+        
+        <flex:FlexButton
+            RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToView, ElementName=stkBody, Property=Height, Factor=0.88}"
+            RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToView, ElementName=stkBody, Property=Width, Factor=0.82}"
+            WidthRequest="50"
+            HeightRequest="50"
+            CornerRadius="100"
+            HorizontalOptions="Center"
+            Icon="plus.png"
+            ForegroundColor="#ffffff"
+            HighlightForegroundColor="#ffffff"
+            BackgroundColor="#32c24d"
+            ClickedCommand="{Binding AddNewExpenseCommand}"
+            HighlightBackgroundColor="#81E08F" />
+        
+    </RelativeLayout>
+
+</ContentPage>

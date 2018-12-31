@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:flex="clr-namespace:Flex.Controls;assembly=Flex"
+             x:Class="SaveMoney.Views.EditExpense">
+
+    <StackLayout>
+        <StackLayout Padding="10,10,10,0" >
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                <flex:FlexButton
+                    WidthRequest="66"
+                    HeightRequest="66"
+                    CornerRadius="50"
+                    HorizontalOptions="Center"
+                    Icon="pencil.png"
+                    ForegroundColor="#ffffff"
+                    HighlightForegroundColor="#ffffff"
+                    BackgroundColor="#32c24d"
+                    Padding="15"
+                    HighlightBackgroundColor="#32c24d" />
+                <Label Text="Edição e exclusão de débito" FontFamily="{StaticResource NormalFont}" />
+                <Label Text="{Binding CurrentDate}" HorizontalOptions="Center" FontSize="10" FontFamily="{StaticResource NormalFont}" />
+            </StackLayout>
+        </StackLayout>
+
+        <BoxView HeightRequest=".5" Margin="0,0,0,5" BackgroundColor="#d1c8c8"/>
+
+        <ScrollView>
+            <StackLayout FlexLayout.Grow="1"
+                     Padding="10,0,10,10" >
+                <Frame>
+                    <StackLayout>
+                        <Label Text="Valor"/>
+                        <Entry MaxLength="22" 
+                           FontFamily="{StaticResource NormalFont}"
+                           HorizontalTextAlignment="Center"
+                           FontSize="40"
+                           Keyboard="Numeric"
+                           Text="{Binding Value, Mode=TwoWay}"/>
+
+                        <Label Text="Categoria"/>
+                        <Picker ItemsSource="{Binding Categories, Mode=TwoWay}"
+                                SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"/>
+                        <Label Text="Descrição"/>
+                        <Entry Text="{Binding Description, Mode=TwoWay}" 
+                               FontFamily="{StaticResource NormalFont}"
+                               HeightRequest="50"/>
+                    </StackLayout>
+                </Frame>
+                                
+                <StackLayout Orientation="Vertical">
+                    <flex:FlexButton
+                        Text="Salvar"
+                        Padding="15"                   
+                        CornerRadius="10"                   
+                        HorizontalOptions="Center"
+                        ForegroundColor="#ffffff"
+                        HighlightForegroundColor="#ffffff"
+                        BackgroundColor="#32c24d"
+                        ClickedCommand="{Binding SaveCommand}"
+                        HighlightBackgroundColor="#81E08F"/>
+                    <flex:FlexButton
+                        Text="Excluir"
+                        Padding="15"                   
+                        CornerRadius="10"                   
+                        HorizontalOptions="Center"
+                        ForegroundColor="#ff0202"
+                        HighlightForegroundColor="#ffffff"
+                        BackgroundColor="#fff"
+                        ClickedCommand="{Binding RemoveCommand}"
+                        BorderColor="#ff0202"
+                        BorderThickness="2"
+                        HighlightBackgroundColor="#ff0202"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
+    
+</ContentPage>

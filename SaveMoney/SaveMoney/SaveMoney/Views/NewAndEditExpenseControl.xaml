@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             NavigationPage.HasNavigationBar="False"
+             xmlns:flex="clr-namespace:Flex.Controls;assembly=Flex"
+             x:Class="SaveMoney.Views.NewAndEditExpenseControl">
+
+    <StackLayout>
+
+        <!-- Head -->
+        <StackLayout Padding="15">
+            <StackLayout Orientation="Vertical" HorizontalOptions="Center">
+                <flex:FlexButton
+                    WidthRequest="66"
+                    HeightRequest="66"
+                    CornerRadius="50"
+                    HorizontalOptions="Center"
+                    Icon="pencil.png"
+                    ForegroundColor="#ffffff"
+                    HighlightForegroundColor="#ffffff"
+                    BackgroundColor="#32c24d"
+                    Padding="15"
+                    HighlightBackgroundColor="#32c24d" />
+                
+                <Label Text="{Binding PageTitle}" 
+                       FontFamily="{StaticResource NormalFont}" />
+                <Label Text="{Binding CurrentDate}" 
+                       HorizontalOptions="Center" 
+                       FontSize="10" 
+                       FontFamily="{StaticResource NormalFont}" />
+            </StackLayout>
+        </StackLayout>
+
+        <BoxView  HeightRequest=".8" BackgroundColor="#d1c8c8"/>
+
+        <!-- Body -->
+        <StackLayout FlexLayout.Grow="1"
+                     Padding="10" >
+            <Frame>
+                <StackLayout>
+                    <Label Text="Título"
+                           FontSize="18"
+                           FontFamily="{StaticResource NormalFont}"
+                           HorizontalOptions="Center"/>
+                    <Entry MaxLength="20"
+                           FontSize="32"
+                           FontFamily="{StaticResource NormalFont}"
+                           HorizontalTextAlignment="Center" 
+                           Text="{Binding Title, Mode=TwoWay}"/>
+                    <Label Text="Valor"
+                           FontSize="18"
+                           FontFamily="{StaticResource NormalFont}"
+                           HorizontalOptions="Center"/>
+                    <Entry MaxLength="20"
+                           FontSize="40"
+                           FontFamily="{StaticResource NormalFont}"
+                           HorizontalTextAlignment="Center"
+                           Keyboard="Numeric" 
+                           Text="{Binding Value, Mode=TwoWay}"/>
+                </StackLayout>
+            </Frame>
+            <Frame>
+                <StackLayout>
+                    <Label Text="Período" 
+                           FontSize="18"
+                           FontFamily="{StaticResource NormalFont}"
+                           HorizontalOptions="Center"/>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                        <Label Text="De" 
+                               FontFamily="{StaticResource NormalFont}"
+                               VerticalOptions="Center"/>
+                        <Label Text="{Binding CurrentDate}" 
+                               FontFamily="{StaticResource NormalFont}"
+                               VerticalOptions="Center"/>
+                        <Label Text="até" 
+                               FontFamily="{StaticResource NormalFont}"
+                               VerticalOptions="Center"/>
+                        <DatePicker FontSize="14"
+                                    WidthRequest="90"
+                                    Date="{Binding SelectedDate, Mode=TwoWay}"
+                                    FontFamily="{StaticResource NormalFont}"/>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <StackLayout>
+                <flex:FlexButton
+                    Text="{Binding SaveButtonName}"
+                    Padding="15"                   
+                    CornerRadius="10"                   
+                    HorizontalOptions="Center"
+                    ForegroundColor="#ffffff"
+                    HighlightForegroundColor="#ffffff"
+                    BackgroundColor="#32c24d"
+                    FontFamily="{StaticResource NormalFont}"
+                    ClickedCommand="{Binding RegisterCommand}"
+                    HighlightBackgroundColor="#81E08F"/>
+            </StackLayout>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
