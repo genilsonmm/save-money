@@ -1,4 +1,4 @@
-![Badge](https://chohfi.visualstudio.com/_apis/public/build/definitions/b9a0172c-0926-42b8-af2f-249539773ba5/13/badge)
+
 
 # Save Money
 Bem vindo ao repositório do Save Money, aqui você vai encontrar todos os recursos necessários para construção do aplicativo mobile cross-plataforma utilizando Xamarin.Forms.
