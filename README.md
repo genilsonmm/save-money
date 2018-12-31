@@ -17,5 +17,7 @@ O aplicativo está funcionando bem, porém algumas melhorias ainda são necessá
 
 #### Algumas telas
 
-![](images/app_ui_main.png?raw=true)
-![](images/app_ui_new.png?raw=true)
+![](images/Screenshot_20181231-103850.png?raw=true)
+![](images/Screenshot_20181231-103905.png?raw=true)
+![](images/Screenshot_20181231-104001.png?raw=true)
+![](images/Screenshot_20181231-104013.png?raw=true)
